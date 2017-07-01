@@ -1,0 +1,8 @@
+[1] S. Garzarella, G. Lettieri, and L. Rizzo. “Virtual device passthrough for high speed VM networking”. In: Architectures for Networking and Communications Systems(ANCS), 2015 ACM/IEEE Symposium on. May 2015, pp. 99–110. doi: 10.1109/ANCS.2015.7110124.
+[2] Google Sparse Hash library. url: https://github.com/sparsehash/sparsehash.
+[3] libcuckoo concurrent hash table. url: https://github.com/efficient/libcuckoo.
+[4] Glenn K. Lockwood, Mahidhar Tatineni, and Rick Wagner. “SR-IOV: Performance Benefits for Virtualized Interconnects”. In: Proceedings of the 2014 Annual Conference on Extreme Science and Engineering Discovery Environment. XSEDE ’14. Atlanta, GA, USA: ACM, 2014, 47:1–47:7. isbn: 978-1-4503-2893-7. doi: 10.1145/2616498.2616537. url: http://doi.acm.org/10.1145/2616498.2616537.
+[5] MoodyCamel ConcurrentQueue. url: https://https://github.com/cameron314/concurrentqueue.
+[6] Luigi Rizzo. “netmap: A Novel Framework for Fast Packet I/O”. In: 21st USENIX Security Symposium (USENIX Security 12). Bellevue, WA: USENIX Association, Aug. 2012, pp. 101–112. isbn: 978-931971-93-5. url: https://www.usenix.org/conference/usenixsecurity12/technical-sessions/presentation/rizzo.
+[7] Luigi Rizzo and Giuseppe Lettieri. “VALE, a Switched Ethernet for Virtual Machines”. In: Proceedings of the 8th International Conference on Emerging Networking Experiments and Technologies. CoNEXT’12. Nice, France: ACM, 2012, pp. 61–72. isbn: 978-1-4503-1775-7. doi: 10 . 1145 / 2413176 . 2413185. url: http://doi.acm.org/10.1145/2413176.2413185.
+[8] Scaling in the Linux Networking Stack. url: https://www.kernel.org/doc/Documentation/networking/scaling.txt.

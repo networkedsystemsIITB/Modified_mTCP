@@ -1,0 +1,16 @@
+--- if_ptnet.c	2017-01-11 14:50:57.000000000 +0530
++++ if_ptnet_new.c	2017-01-12 22:44:10.000000000 +0530
+@@ -274,10 +274,10 @@
+ 	bus_write_4(pq->sc->iomem, pq->kick, 0);
+ }
+ 
+-#define PTNET_BUF_RING_SIZE	4096
+-#define PTNET_RX_BUDGET		512
++#define PTNET_BUF_RING_SIZE	8192
++#define PTNET_RX_BUDGET		2048
+ #define PTNET_RX_BATCH		1
+-#define PTNET_TX_BUDGET		512
++#define PTNET_TX_BUDGET		2048
+ #define PTNET_TX_BATCH		64
+ #define PTNET_HDR_SIZE		sizeof(struct virtio_net_hdr_mrg_rxbuf)
+ #define PTNET_MAX_PKT_SIZE	65536

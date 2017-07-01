@@ -1,0 +1,22 @@
+--- if_vtnet_netmap.h	2017-01-11 14:50:57.000000000 +0530
++++ if_vtnet_netmap_new.h	2017-01-12 22:46:50.000000000 +0530
+@@ -395,7 +395,7 @@
+ 	struct SOFTC_T *sc = ifp->if_softc;
+ 
+ 	*txr = *rxr = sc->vtnet_max_vq_pairs;
+-	*rxd = 512; // sc->vtnet_rx_nmbufs;
++	*rxd = 2048; // sc->vtnet_rx_nmbufs;
+ 	*txd = *rxd; // XXX
+         D("vtnet config txq=%d, txd=%d rxq=%d, rxd=%d",
+ 					*txr, *txd, *rxr, *rxd);
+@@ -411,8 +411,8 @@
+ 	bzero(&na, sizeof(na));
+ 
+ 	na.ifp = sc->vtnet_ifp;
+-	na.num_tx_desc =  1024;// sc->vtnet_rx_nmbufs;
+-	na.num_rx_desc =  1024; // sc->vtnet_rx_nmbufs;
++	na.num_tx_desc =  2048;// sc->vtnet_rx_nmbufs;
++	na.num_rx_desc =  2048; // sc->vtnet_rx_nmbufs;
+ 	na.nm_register = vtnet_netmap_reg;
+ 	na.nm_txsync = vtnet_netmap_txsync;
+ 	na.nm_rxsync = vtnet_netmap_rxsync;

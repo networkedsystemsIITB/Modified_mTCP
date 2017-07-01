@@ -1,0 +1,17 @@
+--- netmap_vale.c	2017-01-11 14:50:57.000000000 +0530
++++ netmap_vale_new.c	2017-06-18 21:02:55.525513263 +0530
+@@ -139,10 +139,10 @@
+  * faster. The batch size is bridge_batch.
+  */
+ #define NM_BDG_MAXRINGS		16	/* XXX unclear how many. */
+-#define NM_BDG_MAXSLOTS		4096	/* XXX same as above */
+-#define NM_BRIDGE_RINGSIZE	1024	/* in the device */
+-#define NM_BDG_HASH		1024	/* forwarding table entries */
+-#define NM_BDG_BATCH		1024	/* entries in the forwarding buffer */
++#define NM_BDG_MAXSLOTS		8192	/* XXX same as above */
++#define NM_BRIDGE_RINGSIZE	2048	/* in the device */
++#define NM_BDG_HASH		2048	/* forwarding table entries */
++#define NM_BDG_BATCH		2048	/* entries in the forwarding buffer */
+ #define NM_MULTISEG		64	/* max size of a chain of bufs */
+ /* actual size of the tables */
+ #define NM_BDG_BATCH_MAX	(NM_BDG_BATCH + NM_MULTISEG)

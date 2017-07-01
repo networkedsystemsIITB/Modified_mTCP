@@ -1,0 +1,11 @@
+--- netmap_generic.c	2017-01-11 14:50:57.000000000 +0530
++++ netmap_generic_new.c	2017-01-12 22:52:56.000000000 +0530
+@@ -969,7 +969,7 @@
+ 		RD(2, "Warning: driver pushed up big packet "
+ 				"(size=%d)", (int)MBUF_LEN(m));
+ 		m_freem(m);
+-	} else if (unlikely(mbq_len(&kring->rx_queue) > 1024)) {
++	} else if (unlikely(mbq_len(&kring->rx_queue) > 2048)) {
+ 		m_freem(m);
+ 	} else {
+ 		mbq_safe_enqueue(&kring->rx_queue, m);

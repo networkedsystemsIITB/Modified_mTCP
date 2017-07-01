@@ -1,0 +1,11 @@
+--- netmap.c	2017-01-11 14:50:57.000000000 +0530
++++ netmap_new.c	2017-01-12 22:51:32.000000000 +0530
+@@ -516,7 +516,7 @@
+ int netmap_generic_txqdisc = 1;
+ 
+ /* Default number of slots and queues for generic adapters. */
+-int netmap_generic_ringsize = 1024;
++int netmap_generic_ringsize = 2048;
+ int netmap_generic_rings = 1;
+ 
+ /* Non-zero if ptnet devices are allowed to use virtio-net headers. */

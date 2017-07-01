@@ -5,12 +5,12 @@ This directory contains the implementation of modified mTCP. At a high level, we
 ### Directory Structure
 
 - **src**: It contains three subdirectories.
-	1. *mtcp_modified*: This directory contains mTCP stack integrated with Netmap based API. It doesn't support UDP. 'testing' directory contains multi-core client and server applications using this stack. Compilation and running instruction are given in mTCP User Manual. 
+	1. *mtcp_modified*: This directory contains mTCP stack integrated with Netmap based API. It doesn't support UDP. 'testing' directory contains multi-core client and server applications using this stack. Compilation and running instructions are given in mTCP User Manual. 
 	2. *mtcp_udp_only*: This directory contains mTCP stack integrated with Netmap based API with suport to UDP. This stack was tested for UDP applications, and is provided as starting point for UDP related development activities.
-	3. *mtcp_tcp_udp*: This stack is contains integration of UDP extensions into stack contained in _mtcp\_modified_. Purpose of this stack is to provide complete TCP/UDP userspace stack. Performance testing of this stack is ongoing, while correctness has been tested.
+	3. *mtcp_tcp_udp*: This stack contains integration of UDP extensions into stack contained in _mtcp\_modified_. Purpose of this stack is to provide complete TCP/UDP userspace stack. Performance testing of this stack is ongoing, while correctness has been tested.
 	  
 - **docs**: It contains following documents in respective subdirectories.
-	1. Netmap User Manual: It contains netmap related setup instructions to be performed in host machine and guest virtual machine(s) befor using our protocol stack. It also explains various configurable parameters in our netmap based API implementation used by modified mTCP. Configuration to run our sample epoll-based TCP/UDP application has also been provided.
+	1. Netmap User Manual: It contains netmap related setup instructions to be performed in host machine and guest virtual machine(s) before using our protocol stack. It also explains various configurable parameters in our netmap based API implementation used by modified mTCP. Configuration to run our sample epoll-based TCP/UDP application has also been provided.
 	2. Netmap Developer Manual: It contains design and implementation details of netmap based API.
 	3. mTCP User Manual: It contains basic description of mTCP API and UDP extensions developed by us. We explain their usage in our example applications. It also contains instructions to run these programs. 
 

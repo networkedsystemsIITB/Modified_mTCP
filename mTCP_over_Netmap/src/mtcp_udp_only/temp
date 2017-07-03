@@ -1,2 +1,0 @@
-g++ -I include -I /home/mme/Downloads/MTP/netmap-master/LINUX/../sys -Wextra -DNO_PCAP -std=c++11 -m64 -Wall -fPIC -fgnu89-inline -DNDEBUG -DNETSTAT -DINFO -DDBGERR -DDBGCERR -fpermissive -pthread -Wunused-parameter -g -c -o addr_pool.o addr_pool.cpp
-g++ -I include -I /home/mme/Downloads/MTP/netmap-master/LINUX/../sys -Wextra -DNO_PCAP -std=c++11 -m64 -Wall -fPIC -fgnu89-inline -DNDEBUG -DNETSTAT -DINFO -DDBGERR -DDBGCERR -fpermissive -pthread -Wunused-parameter -g -c -o api.o api.cpp	 

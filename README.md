@@ -14,5 +14,6 @@ Repository contains two directories mTCP\_over\_Netmap and mTCP\_over\_DPDK, whi
 
 1. [Jayesh Kshirsagar](https://www.cse.iitb.ac.in/~jayeshk/), Master's student (2015-2017), Dept. of Computer Science and Engineering, IIT Bombay.
 2. [Mitali Yadav](https://www.cse.iitb.ac.in/~mitaliyada/), Master's student (2014-2017), Dept. of Computer Science and Engineering, IIT Bombay.
+2. [Priyanka Naik](https://www.cse.iitb.ac.in/~ppnaik/), PhD student, Dept. of Computer Science and Engineering, IIT Bombay.
 3. [Rahul Sharma](https://www.cse.iitb.ac.in/~rahulshcse/), Master's student (2015-2017), Dept. of Computer Science and Engineering, IIT Bombay.
 4. [Prof. Mythili Vutukuru](https://www.cse.iitb.ac.in/~mythili/), Dept. of Computer Science and Engineering, IIT Bombay.

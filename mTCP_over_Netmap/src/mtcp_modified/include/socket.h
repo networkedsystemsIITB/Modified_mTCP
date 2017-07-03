@@ -3,6 +3,9 @@
 
 #include "mtcp_api.h"
 #include "mtcp_epoll.h"
+#include "list.h"
+#include <sys/queue.h>
+#include "tcp_stream_queue.h"
 
 /*----------------------------------------------------------------------------*/
 enum socket_opts
@@ -11,6 +14,7 @@ enum socket_opts
 	MTCP_ADDR_BIND		= 0x02, 
 };
 /*----------------------------------------------------------------------------*/
+
 struct socket_map
 {
 	int id;
@@ -31,6 +35,9 @@ struct socket_map
 	mtcp_epoll_data_t ep_data;
 
 	TAILQ_ENTRY (socket_map) free_smap_link;
+
+	/*For UDP */
+	struct list_head recv_queue;
 
 };
 /*----------------------------------------------------------------------------*/

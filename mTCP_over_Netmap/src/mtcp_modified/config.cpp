@@ -548,7 +548,13 @@ ParseConfiguration(char *line)
 		AssignIOModule(q);
 	} else if (strcmp(p, "num_mem_ch") == 0) {
 		CONFIG.num_mem_ch = atoi(q);
-	} else if (strcmp(p, "multiprocess") == 0) {
+	} else if (strcmp(p, "udp_send_buffer") == 0) {
+		CONFIG.udp_sndbuf_size = atoi(q);
+	}else if (strcmp(p, "udp_receive_buffer") == 0) {
+		CONFIG.udp_rcvbuf_size = atoi(q);
+	}else if (strcmp(p, "udp_list_entries") == 0) {
+		CONFIG.udp_list_entries = atoi(q);
+	}else if (strcmp(p, "multiprocess") == 0) {
 		CONFIG.multi_process = 1;
 		SetMultiProcessSupport(line + strlen(p) + 1);
 	} else {
@@ -585,7 +591,9 @@ LoadConfiguration(const char *fname)
 	CONFIG.tcp_timeout = TCP_TIMEOUT;
 	CONFIG.tcp_timewait = TCP_TIMEWAIT;
 	CONFIG.num_mem_ch = 0;
-
+	CONFIG.udp_sndbuf_size = 2048;
+	CONFIG.udp_rcvbuf_size = 2048;
+	CONFIG.udp_list_entries = 2048;
 	while (1) {
 		char *p;
 		char *temp;
@@ -647,12 +655,14 @@ PrintConfiguration()
 	}
 	TRACE_CONFIG("TCP timewait seconds: %d\n", 
 			USEC_TO_SEC(CONFIG.tcp_timewait * TIME_TICK));
-	TRACE_CONFIG("NICs to print statistics:");
+	TRACE_CONFIG("NICs to print statistics:\n");
 	for (i = 0; i < CONFIG.eths_num; i++) {
 		if (CONFIG.eths[i].stat_print) {
 			TRACE_CONFIG(" %s", CONFIG.eths[i].dev_name);
 		}
 	}
+	TRACE_CONFIG("UDP Send Buffer Size: %d\n",CONFIG.udp_sndbuf_size);
+	TRACE_CONFIG("UDP Receive Buffer Size: %d\n",CONFIG.udp_rcvbuf_size);
 	TRACE_CONFIG("\n");
 	TRACE_CONFIG("----------------------------------------------------------"
 			"-----------------------\n");

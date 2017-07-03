@@ -50,6 +50,9 @@ AllocateSocket(mctx_t mctx, int socktype, int need_lock)
 	memset(&socket->saddr, 0, sizeof(struct sockaddr_in));
 	memset(&socket->ep_data, 0, sizeof(mtcp_epoll_data_t));
 
+	if(socktype == MTCP_SOCK_DGRAM){
+		INIT_LIST_HEAD(&socket->recv_queue);
+	}
 	return socket;
 }
 /*---------------------------------------------------------------------------*/

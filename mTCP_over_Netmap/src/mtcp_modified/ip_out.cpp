@@ -59,7 +59,7 @@ IPOutputStandalone(struct mtcp_manager *mtcp, uint8_t protocol,
 	}
 	*/
 	iph = (struct iphdr *)EthernetOutput(mtcp, 
-			ETH_P_IP, nif, haddr, payloadlen + IP_HEADER_LEN);
+			ETH_P_IP, 0, haddr, payloadlen + IP_HEADER_LEN);
 	if (!iph) {
 		return NULL;
 	}
@@ -135,6 +135,45 @@ IPOutput(struct mtcp_manager *mtcp, tcp_stream *stream, uint16_t tcplen)
 	iph->protocol = IPPROTO_TCP;
 	iph->saddr = stream->saddr;
 	iph->daddr = stream->daddr;
+	iph->check = 0;
+
+#ifndef DISABLE_HWCSUM
+	/* offload IP checkum if possible */
+        if (mtcp->iom->dev_ioctl != NULL)
+		rc = mtcp->iom->dev_ioctl(mtcp->ctx, nif, PKT_TX_TCPIP_CSUM_PEEK, iph);
+	/* otherwise calculate IP checksum in S/W */
+	if (rc == -1)
+		iph->check = ip_fast_csum(iph, iph->ihl);
+#else
+	UNUSED(rc);
+	iph->check = ip_fast_csum(iph, iph->ihl);
+#endif
+	return (uint8_t *)(iph + 1);
+}
+/*----------------------------------------------------------------------------*/
+uint8_t *
+IPOutputUDP(struct mtcp_manager *mtcp, struct sockaddr_in *from, struct sockaddr_in *to, uint16_t udplen)
+{
+	struct iphdr *iph;
+	int nif;
+	unsigned char *haddr;
+	int rc = -1;
+	iph = (struct iphdr *)EthernetOutput(mtcp, ETH_P_IP,
+			/*stream->sndvar->nif_out*/ 0, haddr, udplen + IP_HEADER_LEN);
+	if (!iph) {
+		return NULL;
+	}
+
+	iph->ihl = IP_HEADER_LEN >> 2;
+	iph->version = 4;
+	iph->tos = 0;
+	iph->tot_len = htons(IP_HEADER_LEN + udplen);
+	iph->id = htons(mtcp->udp_id++); //TODO: Handle this
+	iph->frag_off = htons(0x4000);	// no fragmentation
+	iph->ttl = 64;
+	iph->protocol = IPPROTO_UDP;
+	iph->saddr = from->sin_addr.s_addr;//stream->saddr;
+	iph->daddr = to->sin_addr.s_addr;//stream->daddr;
 	iph->check = 0;
 
 #ifndef DISABLE_HWCSUM

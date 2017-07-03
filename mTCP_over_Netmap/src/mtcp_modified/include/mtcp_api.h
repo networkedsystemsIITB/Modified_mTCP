@@ -25,6 +25,7 @@ enum socket_type
 	MTCP_SOCK_LISTENER, 
 	MTCP_SOCK_EPOLL, 
 	MTCP_SOCK_PIPE, 
+	MTCP_SOCK_DGRAM,
 };
 
 struct mtcp_conf
@@ -140,6 +141,7 @@ mtcp_write(mctx_t mctx, int sockid, const char *buf, size_t len);
 /* writev should work in atomic */
 int
 mtcp_writev(mctx_t mctx, int sockid, const struct iovec *iov, int numIOV);
+
 
 #ifdef __cplusplus
 };

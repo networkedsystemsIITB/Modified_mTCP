@@ -17,4 +17,6 @@ IPOutputStandalone(struct mtcp_manager *mtcp, uint8_t protocol,
 uint8_t *
 IPOutput(struct mtcp_manager *mtcp, tcp_stream *stream, uint16_t tcplen);
 
+uint8_t *
+IPOutputUDP(struct mtcp_manager *mtcp, struct sockaddr_in *from, struct sockaddr_in *to, uint16_t udplen);
 #endif /* __IP_OUT_H_ */

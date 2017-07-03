@@ -14,8 +14,8 @@ io = netmap
 # mtcp core will still invoke 8 mTCP threads if the
 # following line is uncommented.
 #num_cores = 8
-
 num_cores = 4
+
 # Number of memory channels per processor socket (dpdk-only)
 num_mem_ch = 4
 
@@ -32,6 +32,8 @@ num_mem_ch = 4
 #port = dpdk0 dpdk1
 #port = dpdk0:0
 #port = dpdk0:1
+
+#------ Netmap ports -------#
 port = eth4
 # Maximum concurrency per core
 max_concurrency = 50000

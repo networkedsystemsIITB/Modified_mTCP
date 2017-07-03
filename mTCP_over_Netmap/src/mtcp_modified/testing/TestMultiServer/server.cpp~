@@ -185,8 +185,7 @@ void serverThreadFunc(void* arg1){
 					CloseConnection(mctx,ep,newsockfd);
 					return NULL;
 				}
-				if(core == 0 || core == 2)
-					D("%s",data);
+				D("%s",data);
 				if(safe_to_compute_tput) {
 					stats[core].forwarded += ret;
 				}

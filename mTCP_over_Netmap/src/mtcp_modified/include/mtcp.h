@@ -20,6 +20,16 @@
 #include "stat.h"
 #include "io_module.h"
 
+#include "list.h"
+#include "mudp_hashlist.h"
+#include "udp_send_buffer.h"
+#include "udp_receive_buffer.h"
+#include <sparsehash/dense_hash_map>
+#include <unordered_map>
+using namespace std;
+using google::dense_hash_map;
+
+
 #ifndef TRUE
 #define TRUE (1)
 #endif
@@ -37,6 +47,7 @@
 #define ETHERNET_HEADER_LEN		14	// sizeof(struct ethhdr)
 #define IP_HEADER_LEN			20	// sizeof(struct iphdr)
 #define TCP_HEADER_LEN			20	// sizeof(struct tcphdr)
+#define UDP_HEADER_LEN			8	// sizeof(struct udp)
 #define TOTAL_TCP_HEADER_LEN	54	// total header length
 
 /* configrations */
@@ -83,6 +94,59 @@
 #define SBUF_LOCK(lock)			pthread_mutex_lock(lock)
 #define SBUF_UNLOCK(lock)		pthread_mutex_unlock(lock)
 #endif /* USE_SPIN_LOCK */
+
+struct four_tuple_key{
+	uint32_t sip;
+	//uint32_t dip;
+	uint16_t sport;
+	//uint16_t dport;
+};
+
+struct four_tuple_hash {
+	size_t operator()(const struct four_tuple_key& k ) const
+	{
+		return (((size_t)(k.sip) * 59) ^ \
+		((size_t)(k.sport) << 16));
+		/*
+		return (((size_t)(k.sip) * 59) ^ \
+		((size_t)(k.dip)) ^\
+		((size_t)(k.sport) << 16) ^\
+		((size_t)(k.dport)));
+		*/
+	}
+};
+
+struct four_tuple_eq {
+	bool operator () (const struct four_tuple_key& tup1, const struct four_tuple_key& tup2) const
+	{
+		return (tup1.sip == tup2.sip && tup1.sport == tup2.sport);
+	}
+};
+
+struct mudp_send_info{
+
+	struct sockaddr_in *from,*to;
+	struct socket_map *socket;
+	int len;
+	char *buf;
+
+};
+struct mudp_send_list{
+
+	struct mudp_send_info info;
+	struct list_head list_member;
+	TAILQ_ENTRY (mudp_send_list) free_send_list_link;
+
+};
+struct udp_receive_queue{
+
+	int size;
+	char *data;
+	struct sockaddr_in from;
+	struct list_head recv_queue; // For next element in receive queue.
+	TAILQ_ENTRY (udp_receive_queue) free_receive_list_link;
+};
+
 /*----------------------------------------------------------------------------*/
 struct eth_table
 {
@@ -150,6 +214,11 @@ struct mtcp_config
 	uint8_t multi_process;
 	uint8_t multi_process_is_master;
 	uint8_t multi_process_curr_core;
+
+	/* UDP buffer sizes. */
+	int udp_rcvbuf_size;
+	int udp_sndbuf_size;
+	int udp_list_entries;
 };
 /*----------------------------------------------------------------------------*/
 struct mtcp_context
@@ -229,6 +298,23 @@ struct mtcp_manager
 	int timewait_list_cnt;
 	int timeout_list_cnt;
 
+	/*Variables related to UDP processing*/
+	//struct udp_socket* udp_smap;
+	struct list_head udp_send_list;
+	uint16_t udp_id;
+	TAILQ_HEAD (, udp_socket) udp_free_socket_list;
+	TAILQ_HEAD (, mudp_send_list) udp_free_send_list;
+	TAILQ_HEAD (, udp_receive_queue) udp_free_receive_list;
+
+	struct mudp_send_buffer *udp_send_buffer;
+	struct mudp_receive_buffer *udp_receive_buffer;
+
+	struct mudp_send_list *udp_send_entries;
+	struct udp_receive_queue *udp_receive_entries;
+
+	dense_hash_map<struct four_tuple_key,struct socket_map *,struct four_tuple_hash,struct four_tuple_eq> mudp_flow_table;
+	//unordered_map<struct four_tuple_key,struct socket_map *,struct four_tuple_hash,struct four_tuple_eq> mudp_flow_table;
+
 #if BLOCKING_SUPPORT
 	TAILQ_HEAD (rcv_br_head, tcp_stream) rcv_br_list;
 	TAILQ_HEAD (snd_br_head, tcp_stream) snd_br_list;
@@ -276,6 +362,7 @@ struct mtcp_thread_context
 	pthread_mutex_t smap_lock;
 	pthread_mutex_t flow_pool_lock;
 	pthread_mutex_t socket_pool_lock;
+	pthread_mutex_t mudp_socket_lock;
 
 #if LOCK_STREAM_QUEUE
 #if USE_SPIN_LOCK

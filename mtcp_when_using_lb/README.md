@@ -1,4 +1,4 @@
-* The following [modified mTCP](mtcp-master) needs to be used on backend VNF when using mTCP stack
+* The following [modified mTCP](mtcp-master) needs to be used on backend VNF when using mTCP stack with a Layer 3 load balancer in front of the VNF.
 
 * Changes to be made in mTCP code based on your setup (backend VNF IP, port and LB IP). 
     * In mtcp-master/mtcp/src:
